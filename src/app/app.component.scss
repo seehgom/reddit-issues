@@ -1,0 +1,22 @@
+.avatar {
+  height: 2rem;
+  width: 2rem;
+}
+button {
+  margin: 1rem;
+  &:focus {
+    outline: #cf06cf solid 3px;
+  }
+}
+.container {
+  display: grid;
+  grid-template-areas: "table cart";
+  grid-template-columns: 1fr 10rem;
+}
+table {
+  grid-area: table;
+}
+.cart {
+  grid-area: cart;
+  margin-top: 2rem;
+}

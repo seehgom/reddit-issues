@@ -1,27 +1,50 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { By } from '@angular/platform-browser';
+import { A11yModule } from '@angular/cdk/a11y';
+import { FocusDirective } from './focus.directive';
 
 describe('AppComponent', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    declarations: [AppComponent]
-  }));
+  let app: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  const focusedElementId = '1';
 
+  let mock: HttpTestingController;
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
-  it(`should have as title 'reddit-issues'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('reddit-issues');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it('focus on 1st element', fakeAsync(() => {
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('reddit-issues app is running!');
+    const request = mock.expectOne({});
+    tick(1)
+    request.flush(mockData());
+    fixture.detectChanges();
+    const focusedElement = fixture.debugElement.query(By.css(':focus'));
+    expect(focusedElement.attributes['id']).toEqual('add-'+focusedElementId)
+  }));
+  function mockData(): Object {
+    return [{
+      'createdAt': '2024-01-17T05:14:54.832Z',
+      'name': 'Mr. Alice Tremblay',
+      'avatar': 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/516.jpg',
+      'id': focusedElementId
+    }, {
+      'createdAt': '2024-01-17T10:26:03.320Z',
+      'name': 'Stella Gleichner',
+      'avatar': 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/192.jpg',
+      'id': '2'
+    }];
+
+  }
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [AppComponent, FocusDirective],
+      imports:[HttpClientTestingModule,A11yModule]
+    });
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
+    mock = TestBed.inject(HttpTestingController);
   });
+
 });
