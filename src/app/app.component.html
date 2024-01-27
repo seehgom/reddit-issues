@@ -1,21 +1,6 @@
-<div class="container" *ngIf="rows$ | async as rows; else loading">
-  <table>
-    <tbody>
-    <ng-container *ngFor="let row of rows">
-      <tr>
-        <td>{{ row.name }}</td>
-        <td><img class="avatar" [src]="row.avatar"></td>
-        <td>
-          <button class="addBtn" [appFocus]="row.id===focusId" (focusin)="focusId=undefined" id="add-{{row.id}}"
-                  (click)="addToCart(row)">+
-          </button>
-          {{ howManyInCart(row) }}
-          <button #deleteBtn (click)="removeFromCart(row)" [disabled]="!isPresentInCart(row)">-</button>
-        </td>
-      </tr>
-    </ng-container>
-    </tbody>
-  </table>
-  <div class="cart">Cart: {{ totalItemsInCart() }}</div>
-</div>
-<ng-template #loading>Loading...</ng-template>
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+  <a mat-tab-link *ngFor="let link of links" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{link.label}}</a>
+</nav>
+<mat-tab-nav-panel #tabPanel>
+  <router-outlet></router-outlet>
+</mat-tab-nav-panel>
