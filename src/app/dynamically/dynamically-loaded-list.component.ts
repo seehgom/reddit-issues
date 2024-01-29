@@ -18,23 +18,23 @@ export class DynamicallyLoadedListComponent implements OnInit{
   constructor( private http: HttpClient ) {}
 
   ngOnInit(): void {
-    this.buyersList$ = this.http.get<Buyer[]>(url).pipe(tap(( posts ) => this.focusId = posts[0].id));
+    this.buyersList$ = this.http.get<Buyer[]>(url).pipe(tap(( buyersList ) => this.focusId = buyersList[0].id));
   }
 
-  addToCart( row: Buyer ) {
-    set(this.cart, row.id, this.howManyInCart(row) + 1);
+  addToCart( buyer: Buyer ) {
+    set(this.cart, buyer.id, this.howManyInCart(buyer) + 1);
   }
 
-  removeFromCart( row: Buyer ) {
-    set(this.cart, row.id, this.howManyInCart(row) - 1);
+  removeFromCart( buyer: Buyer ) {
+    set(this.cart, buyer.id, this.howManyInCart(buyer) - 1);
   }
 
-  howManyInCart( row: Buyer ) {
-    return this.cart[row.id] ?? 0;
+  howManyInCart( buyer: Buyer ) {
+    return this.cart[buyer.id] ?? 0;
   }
 
-  isPresentInCart( row: Buyer ) {
-    return this.howManyInCart(row) > 0;
+  isPresentInCart( buyer: Buyer ) {
+    return this.howManyInCart(buyer) > 0;
   }
 
   totalItemsInCart() {
