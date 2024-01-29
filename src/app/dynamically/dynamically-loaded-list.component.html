@@ -6,7 +6,7 @@
         <td>{{ row.name }}</td>
         <td><img class="avatar" [src]="row.avatar"></td>
         <td>
-          <button class="addBtn" [appFocus]="row.id===focusId" (focusin)="focusId=undefined" id="add-{{row.id}}"
+          <button class="addBtn" [appFocus]="row.id===focusId" (focusout)="focusId=undefined" id="add-{{row.id}}"
                   (click)="addToCart(row)">+
           </button>
           {{ howManyInCart(row) }}
