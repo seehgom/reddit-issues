@@ -1,4 +1,4 @@
-export interface Post {
+export interface Buyer {
   id: string;
   slug: string;
   url: string;

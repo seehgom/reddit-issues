@@ -1,16 +1,16 @@
-<div class="container" *ngIf="rows$ | async as rows; else loading">
+<div class="container" *ngIf="buyersList$ | async as buyersList; else loading">
   <table>
     <tbody>
-    <ng-container *ngFor="let row of rows">
+    <ng-container *ngFor="let buyer of buyersList">
       <tr>
-        <td>{{ row.name }}</td>
-        <td><img class="avatar" [src]="row.avatar"></td>
+        <td>{{ buyer.name }}</td>
+        <td><img class="avatar" [src]="buyer.avatar"></td>
         <td>
-          <button class="addBtn" [appFocus]="row.id===focusId" (focusout)="focusId=undefined" id="add-{{row.id}}"
-                  (click)="addToCart(row)">+
+          <button class="addBtn" [appFocus]="buyer.id===focusId" (focusout)="focusId=undefined" id="add-{{buyer.id}}"
+                  (click)="addToCart(buyer)">+
           </button>
-          {{ howManyInCart(row) }}
-          <button #deleteBtn (click)="removeFromCart(row)" [disabled]="!isPresentInCart(row)">-</button>
+          {{ howManyInCart(buyer) }}
+          <button #deleteBtn (click)="removeFromCart(buyer)" [disabled]="!isPresentInCart(buyer)">-</button>
         </td>
       </tr>
     </ng-container>
