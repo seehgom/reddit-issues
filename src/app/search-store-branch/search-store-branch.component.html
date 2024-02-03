@@ -1,0 +1,40 @@
+<label>Select US State</label>
+<select  [ngModel]="selectedUSState$()" (ngModelChange)="selectedUSState$.set($event)">
+  <option *ngIf="!usStates$" [selected]="true" disabled="disabled">{{ 'Loading States...' }}</option>
+  <option *ngFor="let usState of usStates$()" [selected]="selectedUSState$()===usState" [value]="usState">
+    {{ usState }}
+  </option>
+</select>
+<br />
+{{ usStates$() | json }}<br/>
+{{ selectedUSState$() | json   }}<br/>
+<br />
+<label>Select Store</label>
+<select (change)="selectedStore$.set($any($event.target).value)">
+  <option *ngIf="!((storesInSelectedState$ ))" [selected]="true"
+          disabled="disabled">{{ selectedUSState$() ? 'Loading Stores...' : 'Select a State before Store' }}
+  </option>
+  <ng-container *ngIf="storesInSelectedState$()">
+  <option *ngFor="let store of storesInSelectedState$()" [selected]="selectedStore$()===store" [value]="store">
+    {{ store }}
+  </option>
+  </ng-container>
+</select>
+<br />
+{{ storesInSelectedState$()  | json }}<br/>
+{{ selectedStore$()  | json }}<br/>
+<br />
+<label>Select Department</label>
+<select (change)="selectedDepartment$.set($any($event.target).value)">
+  <option *ngIf="!(departmentsInStore$ )" [selected]="true"
+          disabled="disabled">{{ selectedStore$() ? 'Loading Departments...' : 'Select Store Before Department' }}
+  </option>
+  <option *ngFor="let department of departmentsInStore$() " [selected]="selectedDepartment$()===department"
+          [value]="department">
+    {{ department }}
+  </option>
+</select>
+<br />
+<div>{{ selectedDepartment$()  | json }}</div>
+<div>{{ departmentsInStore$()  | json }}</div>
+<br />

@@ -1,0 +1,26 @@
+label {
+  margin: 0 5px;
+}
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAAnRSTlMA/1uRIrUAAAARSURBVHgBnZDRDcMgEEVR9mzEvwP4VjTVeMbEbn0yj6EP5OB0MX2t2Q/c+ctNnA7NJfRNTICvGNJj+yHcm05xFui+jT8C6GEtgXsmCz4Xg7x6Aj4kfgKi5HexAAAAAElFTkSuQmCC') no-repeat right #fff;
+  background-size: 14px;
+  transition: border-color 0.3s ease;
+  width: fit-content;
+  min-width: 94.5px;
+}
+
+select:hover {
+  border-color: #888;
+}
+
+select:focus {
+  //border-color: #2255ff;
+  //outline: none;
+}

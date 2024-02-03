@@ -10,20 +10,39 @@ import { NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DynamicallyLoadedListComponent } from './dynamically/dynamically-loaded-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { SearchStoreBranchComponent } from './search-store-branch/search-store-branch.component';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     FocusDirective,
-    DynamicallyLoadedListComponent
+    DynamicallyLoadedListComponent,
+    SearchStoreBranchComponent,
   ],
   imports: [
-    BrowserModule, A11yModule, BrowserAnimationsModule, HttpClientModule, NgOptimizedImage, RouterModule.forRoot([{
-      path: 'focus', component: DynamicallyLoadedListComponent
-    }, {path:"**", pathMatch: 'full', redirectTo: 'focus'}]), MatTabsModule
+    BrowserModule,
+    A11yModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    NgOptimizedImage,
+    RouterModule.forRoot([
+      {
+        path: 'focus',
+        component: DynamicallyLoadedListComponent,
+      },
+      {
+        path: 'wait-and-focus',
+        component: SearchStoreBranchComponent,
+      },
+      { path: '**', pathMatch: 'full', redirectTo: 'focus' },
+    ]),
+    MatTabsModule,
+    MatSelectModule,
+    FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}
