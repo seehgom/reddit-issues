@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { faker } from '@faker-js/faker';
 import { isNil, map } from 'lodash-es';
 import { asyncScheduler, Subject } from 'rxjs';
@@ -17,7 +17,7 @@ export interface Product {
   providedIn: 'root',
 })
 export class WalmartService {
-  constructor(private ngZone: NgZone) {}
+  constructor() {}
   delayed$<T>(val: T, delayMs: number) {
     const val$ = new Subject<T>();
     asyncScheduler.schedule(() => val$.next(val), delayMs);
