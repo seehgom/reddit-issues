@@ -1,7 +1,7 @@
-import { Injectable, NgZone, signal } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { faker } from '@faker-js/faker';
 import { isNil, map } from 'lodash-es';
-import { asyncScheduler } from 'rxjs';
+import { asyncScheduler, Subject } from 'rxjs';
 
 export const STATE_COUNT = 4;
 export const STORE_COUNT = 4;
@@ -19,9 +19,9 @@ export interface Product {
 export class WalmartService {
   constructor(private ngZone: NgZone) {}
   delayed$<T>(val: T, delayMs: number) {
-    const val$ = signal<T | null>(null);
-    asyncScheduler.schedule(() => val$.set(val), delayMs);
-    return val$;
+    const val$ = new Subject<T>();
+    asyncScheduler.schedule(() => val$.next(val), delayMs);
+    return val$.asObservable();
   }
 
   getAllStates() {
@@ -32,7 +32,7 @@ export class WalmartService {
   }
 
   getStoreList(state: string | null) {
-    if (isNil(state)) return signal(null);
+    if (isNil(state)) throw new Error('no state selected');
     return this.delayed$(
       map(
         Array(STORE_COUNT),
@@ -43,7 +43,7 @@ export class WalmartService {
   }
 
   getDepartments(storeName: string | null) {
-    if (isNil(storeName)) return signal(null);
+    if (isNil(storeName)) throw new Error('no store selected');
     return this.delayed$(
       map(Array(Math.floor(Math.random() * 5) + 5), () =>
         faker.commerce.department(),
@@ -53,6 +53,7 @@ export class WalmartService {
   }
 
   getProducts(department: string | null) {
+    if (!isNil(department)) throw new Error('no department selected');
     return this.delayed$(
       map(
         Array(Math.floor(Math.random() * 5) + 5),

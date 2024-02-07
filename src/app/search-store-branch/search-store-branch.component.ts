@@ -1,37 +1,21 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  OnInit,
-  Signal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { Component, effect, OnInit, signal } from '@angular/core';
 import { Product, WalmartService } from './walmart.service';
-import { get } from 'lodash-es';
+import { get, isEmpty } from 'lodash-es';
 
 @Component({
   selector: 'app-search-store-branch',
   templateUrl: './search-store-branch.component.html',
   styleUrls: ['./search-store-branch.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchStoreBranchComponent implements OnInit {
-  usStates$: WritableSignal<string[] | null> =
-    this.walmartService.getAllStates();
-  selectedUSState$: WritableSignal<string | null> = signal<string | null>(null);
-  storesInSelectedState$: Signal<string[] | null> = signal<string[] | null>(
-    null,
-  );
-  selectedStore$: WritableSignal<string | null> = signal<string | null>(null);
-  departmentsInStore$ = signal<string[] | null>(null);
-  selectedDepartment$: WritableSignal<string | null> = signal<string | null>(
-    null,
-  );
-  products$ = signal<Product[] | null>(null);
-  selectedProduct: WritableSignal<Product | null> = signal<Product | null>(
-    null,
-  );
+  usStates$ = signal<string[]>([]);
+  selectedUSState$ = signal<string | null>(null);
+  storesInSelectedState$ = signal<string[]>([]);
+  selectedStore$ = signal<string | null>(null);
+  departmentsInStore$ = signal<string[]>([]);
+  selectedDepartment$ = signal<string | null>(null);
+  products$ = signal<Product[]>([]);
+  selectedProduct = signal<Product | null>(null);
 
   orderOfCleanup = [
     'states',
@@ -45,23 +29,38 @@ export class SearchStoreBranchComponent implements OnInit {
   ];
 
   constructor(private walmartService: WalmartService) {
+    this.walmartService.getAllStates().subscribe({
+      next: (val) => this.usStates$.set(val),
+    });
     effect(() => {
       const selectedState = this.selectedUSState$();
-      this.storesInSelectedState$ = selectedState
-        ? this.walmartService.getStoreList(selectedState)
-        : signal(null);
+      if (!isEmpty(selectedState)) {
+        this.walmartService.getStoreList(selectedState).subscribe({
+          next: (val) => this.storesInSelectedState$.set(val),
+        });
+      } else {
+        this.storesInSelectedState$.set([]);
+      }
     });
     effect(() => {
       const selectedStoreName = this.selectedStore$();
-      this.departmentsInStore$ = selectedStoreName
-        ? this.walmartService.getDepartments(selectedStoreName)
-        : signal(null);
+      if (!isEmpty(selectedStoreName)) {
+        this.walmartService.getDepartments(selectedStoreName).subscribe({
+          next: (val) => this.departmentsInStore$.set(val),
+        });
+      } else {
+        this.departmentsInStore$.set([]);
+      }
     });
     effect(() => {
       const selectedDepartment = this.selectedDepartment$();
-      this.products$ = selectedDepartment
-        ? this.walmartService.getProducts(selectedDepartment)
-        : signal(null);
+      if (!isEmpty(selectedDepartment)) {
+        this.walmartService.getProducts(selectedDepartment).subscribe({
+          next: (val) => this.products$.set(val),
+        });
+      } else {
+        this.products$.set([]);
+      }
     });
   }
 
