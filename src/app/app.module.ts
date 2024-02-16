@@ -13,6 +13,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SearchStoreBranchComponent } from './search-store-branch/search-store-branch.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { MultiSelectSearchComponent } from './multi-select-search/multi-select-search.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     FocusDirective,
     DynamicallyLoadedListComponent,
     SearchStoreBranchComponent,
+    MultiSelectSearchComponent,
   ],
   imports: [
     BrowserModule,

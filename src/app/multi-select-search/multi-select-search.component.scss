@@ -1,0 +1,25 @@
+//.input-checkbox {
+//  margin: 16px;
+//}
+
+.input-wrapper{
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    height: 42px;
+  }
+  
+  .select-all-checkbox {
+    padding-right: 0;
+    margin: 16px;
+  }
+  ::ng-deep {
+    .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+      padding-bottom: 5px;
+    }
+  }
+  
+  ::ng-deep .tooltip-client-account {
+    overflow-y: scroll !important;
+    max-height: 250px;
+  }
+  

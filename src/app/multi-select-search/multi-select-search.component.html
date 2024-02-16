@@ -1,0 +1,52 @@
+<mat-form-field
+  xmlns="http://www.w3.org/1999/html"
+  appearance="fill"
+  class="w-100 landing-page-field"
+  [matTooltip]="value.join(',')"
+  [matTooltipShowDelay]="500"
+  [matTooltipHideDelay]="100"
+  [matTooltipPosition]="'below'"
+  matTooltipClass="tooltip-client-account"
+  [matBadge]="badgeCount"
+  matBadgePosition="below after"
+  matBadgeSize="medium"
+  matBadgeOverlap="true"
+  [matBadgeHidden]="!badgeCount">
+  <mat-label>{{ placeholder }}</mat-label>
+  <mat-select
+    [value]="_value"
+    [disabled]="isDisabled"
+    [multiple]="true"
+    matTooltip="{{ toolTipVal }}"
+    matTooltipClass="tooltip-client-account"
+    [matTooltipPosition]="'below'"
+    (selectionChange)="onSelectionChange($event)">
+    <span class="input-wrapper">
+      <mat-checkbox
+        class="select-all-checkbox"
+        matPrefix
+        color="primary"
+        [indeterminate]="isIndeterminate()"
+        [checked]="allSelected()"
+        (change)="toggleAllFn($event.checked)"></mat-checkbox>
+      <input
+        #inputSearch
+        (keydown)="keyCalled($event)"
+        (keyup)="keyCalled($event)"
+        matInput
+        [type]="'text'"
+        [ngModel]="searchTerm"
+        (ngModelChange)="searchChanges.next($event)" />
+    </span>
+
+    <mat-option
+      *ngFor="let item of filteredItems"
+      [value]="item"
+      [matTooltip]="item"
+      [matTooltipShowDelay]="500"
+      [matTooltipHideDelay]="100"
+      [matTooltipPosition]="'below'">
+      {{ item }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
